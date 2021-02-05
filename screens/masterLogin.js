@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, Button, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import { globalStyles } from '../styles/global';
 
 
 export default function MasterLogin( { navigation }) {
@@ -12,7 +13,7 @@ export default function MasterLogin( { navigation }) {
   const keyInput= React.createRef();
 
   const pressHandler= () => {
-    if (key=='spacetrain') {
+    if (key=='1') {
       navigation.navigate('OperatorsManager');
     } else {
       Alert.alert(
@@ -38,16 +39,16 @@ export default function MasterLogin( { navigation }) {
         console.log('dismissed');
       }}>
     <View style={styles.container}>
-      <Text style={styles.content}> Login as a Master</Text>
+      <Text style={globalStyles.titleText}> Login as a Master</Text>
       <View style={styles.form}>
-        <Text>Username</Text>
+        <Text style={globalStyles.paragraph}>Username</Text>
         <TextInput 
         placeholder='username' 
         style={styles.input}
         onChangeText={(value) => setUserName(value)} 
         ref={usernameInput} />
 
-        <Text>Password</Text>
+        <Text style={globalStyles.paragraph}>Password</Text>
         <TextInput 
         placeholder='********' 
         secureTextEntry={true}
@@ -55,14 +56,15 @@ export default function MasterLogin( { navigation }) {
         onChangeText={(value) => setPassword(value)} 
         ref={passwordInput} />
 
-        <Text>Key</Text>
+        <Text style={globalStyles.paragraph}>Key</Text>
         <TextInput 
         placeholder='********' 
         secureTextEntry={true}
         style={styles.input}
         onChangeText={(value) => setKey(value)} 
         ref={keyInput} />
-        <Button title='Login' color='#98c1d9' onPress={pressHandler}/>
+        <Text>  </Text>
+        <Button style={styles.btn} title='Login' color='#98c1d9' onPress={pressHandler}/>
       </View>
     </View>
     </TouchableWithoutFeedback>
@@ -72,14 +74,14 @@ export default function MasterLogin( { navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
+    padding: 30,
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    paddingTop: 100,
+    paddingTop: 80,
   },
   form :{
-    paddingTop: 40
+    paddingTop: 45
   },
   content: {
     fontSize: 20,
@@ -89,9 +91,15 @@ const styles = StyleSheet.create({
   },
   input: {
       borderWidth: 1,
+      borderRadius: 5,
       borderColor: '#ddd',
-      padding: 8,
-      margin: 10,
+      padding: 5,
+      margin: 5,
       width: 200,
+  }, 
+  btn :{
+    width: 100,
+    borderRadius: 10,
+    marginTop:8
   }
 });

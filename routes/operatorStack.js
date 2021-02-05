@@ -25,7 +25,7 @@ const screens= {
 const OperatorStack = createStackNavigator(screens, {
     defaultNavigationOptions: {
       headerTintColor: '#eee',
-      headerStyle: { backgroundColor: '#98c1d9', height: 90 }
+      headerStyle: { backgroundColor: '#98c1d9', height: 80 }
     }
 });
 

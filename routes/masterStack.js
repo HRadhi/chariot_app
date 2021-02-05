@@ -23,7 +23,7 @@ const screens= {
     OperatorsLog: {
         screen: OperatorsLog, 
         navigationOptions: {
-            title: 'Remote Control'
+            title: 'Logging Page'
         }
     }
 }
@@ -32,7 +32,7 @@ const screens= {
 const MasterStack = createStackNavigator(screens, {
     defaultNavigationOptions: {
       headerTintColor: '#555',
-      headerStyle: { backgroundColor: '#98c1d9', height: 90 }
+      headerStyle: { backgroundColor: '#98c1d9', height: 80 }
     }
 });
 

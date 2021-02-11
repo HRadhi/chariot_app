@@ -42,7 +42,7 @@ const toggleFunction = () => {
         </View>
       </Modal>
 
-      <View style={styles.add_eye}>
+      {/*<View style={styles.add_eye}>
         <MaterialIcons 
           name='add' 
           size={24} 
@@ -56,7 +56,7 @@ const toggleFunction = () => {
         color='#555' 
         onPress={() => toggleFunction()}
         />
-      </View>  
+  </View>  */}
       
       <FlatList 
       data={users}

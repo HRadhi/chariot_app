@@ -8,6 +8,21 @@ const getFonts = () => Font.loadAsync({
   'nunito-bold': require('./assets/fonts/Nunito-Bold.ttf'),
 });
 
+import * as firebase from 'firebase';
+
+//Initialize Firebase
+const firebaseConfig = {
+  apiKey: "AIzaSyBZORO6otmEokkXwAGIBNmLVIiQfP29iow",
+  authDomain: "chariot-app-11195.firebaseapp.com",
+  projectId: "chariot-app-11195",
+  storageBucket: "chariot-app-11195.appspot.com",
+  messagingSenderId: "571417045319",
+  appId: "1:571417045319:web:96127a3e983063270d0462",
+  measurementId: "G-LSDD5FTP52"
+};
+
+firebase.initializeApp(firebaseConfig);
+
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
 

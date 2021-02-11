@@ -1,72 +1,103 @@
 import React, { useState } from 'react';
-import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
+import { StyleSheet, Alert, Text } from 'react-native';
+import { Form, Input, Item, Button, Label } from 'native-base';
 
-export default function AddUser({users, setUsers, setModalOpenAdd}) {
+import * as firebase from 'firebase';
+import * as LocalAuthentication from 'expo-local-authentication';
+
+export default function AddUser({setModalOpenAdd}) {
 
 // A state used to add a user
-const [newUser,setNewUser] = useState('');
+const [newName,setNewName] = useState('');
+const [newEmail,setNewEmail] = useState('');
 const [newPass,setNewPass] = useState('');
 
+const signUpUser = (email, password) => {
 
-// Ref added to clear the test input after pressing Add button
-const usernameInput= React.createRef();
-const passwordInput= React.createRef();
-
-const pressHandler= () => {
-  {/** Interact with the server FireBase **/}
-  if (newUser.length>1 && newPass.length>1){
-  const key = Math.random().toString();
-  setUsers((currentUsers) => {
-    return [{ username: newUser, password: newPass, key: key }, ...currentUsers];
-  });
-  }
-  usernameInput.current.clear();
-  passwordInput.current.clear();
-  setNewUser('');
-  setNewPass('');
-  setModalOpenAdd(false);
+  LocalAuthentication.authenticateAsync({promptMessage: 'Scan Your Finger'}).then((success)=> {
+    if(success){
+      firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
+        //console.log(user)
+        //add name to firestore (post method)
+        // operators: {name, [sessions: {dates, activation time, comsumption etc...}]}
+        setModalOpenAdd(false);
+        }).catch((error) => {
+          Alert.alert(
+            'Warning !',
+            error.toString(),
+            [
+              {
+                text: 'Try Again',
+                onPress: () => console.log('Ask me later pressed')
+              }
+            ],
+            { cancelable: false }
+          )}
+        ).finally(() => {
+          setNewEmail('')
+          setNewPass('')
+          setKey('')
+        });
+    }
+  })
 }
 
-return (
-    <View style={styles.form}>
-        <Text>Username</Text>
-        <TextInput 
-        placeholder='username' 
-        style={styles.input}
-        onChangeText={(value) => setNewUser(value)} 
-        ref={usernameInput} />
 
-        <Text>Password</Text>
-        <TextInput 
-        placeholder='********' 
+return (  
+    <Form style={styles.form}>
+      <Text style={styles.titleText}> Add an Operator</Text>
+      <Item floatingLabel>
+        <Label>Full Name</Label>
+        <Input 
+        autoCorrect={false}
+        autoCapitalize="none"
+        onChangeText={(name)=>setNewName(name)}
+        />
+      </Item>
+
+      <Item floatingLabel>
+        <Label>Email</Label>
+        <Input 
+        autoCorrect={false}
+        autoCapitalize="none"
+        onChangeText={(email)=>setNewEmail(email)}
+        />
+      </Item>
+
+      <Item floatingLabel>
+        <Label>Password</Label>
+        <Input 
         secureTextEntry={true}
-        style={styles.input}
-        onChangeText={(value) => setNewPass(value)} 
-        ref={passwordInput} />
-        <Button title='Add' color='#98c1d9' onPress={pressHandler}/>
-    </View>
+        autoCorrect={false}
+        autoCapitalize="none"
+        onChangeText={(password)=>setNewPass(password)}
+        />
+      </Item>
+
+      <Button style={{ marginTop: 30 }}
+        full
+        rounded
+        success
+        onPress={() => signUpUser(newEmail, newPass)}
+      >
+        <Text style={{color:'white'}}>Add</Text>
+      </Button>
+    </Form>
 );    
 }
 
-const styles=StyleSheet.create({
-    
-  form :{
-    paddingTop: 40
+const styles = StyleSheet.create({
+  form: {
+    //flex: 1,
+    paddingTop: 50,
+    padding: 30
   },
-  content: {
-    fontSize: 20,
-    fontWeight: 'bold',
+  titleText: {    
+    fontFamily: 'nunito-bold',
+    fontSize: 24,
     color: '#555',
-    letterSpacing: 0.5,
   },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ddd',
-    padding: 8,
-    margin: 10,
-    width: 200,
-  },
-})
+});
 
 
 

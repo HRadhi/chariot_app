@@ -8,12 +8,16 @@ export default function Header({ title, navigation }) {
     navigation.openDrawer();
   }
 
+  const Logout = () => {
+    console.log("You are Logged out");
+  }
+
   return (
     <View style={styles.header}>
-      <MaterialIcons name='menu' size={28} onPress={openMenu} style={styles.icon} />
+      <MaterialIcons name='menu' size={28} onPress={openMenu} style={styles.iconMenu} />
       <View>
         <Text style={styles.headerText}>{title}</Text>
-      </View>
+      </View><MaterialIcons name='logout' size={28} onPress={Logout} style={styles.iconLogout} />
     </View>
   );
 }
@@ -32,9 +36,14 @@ const styles = StyleSheet.create({
     color: '#333',
     letterSpacing: 1,
   },
-  icon: {
+  iconMenu: {
     position: 'absolute',
     left: 5,
+    color: '#333',
+  },
+  iconLogout: {
+    position: 'absolute',
+    right: 5,
     color: '#333',
   }
 });

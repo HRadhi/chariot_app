@@ -21,8 +21,8 @@ export default function MasterLogin( { navigation }) {
 
   const loginUser = (email, password) => {
 
-    firebase.auth().signInWithEmailAndPassword(email, password).then(function (user) {
-      //console.log(user)
+    firebase.auth().signInWithEmailAndPassword(email, password).then((cred) => {
+      //console.log(cred)
       navigation.navigate('OperatorsManager')
     }).catch((error) => {
       Alert.alert(
@@ -30,39 +30,12 @@ export default function MasterLogin( { navigation }) {
         error.toString(),
         [
           {
-            text: 'Try Again',
-            onPress: () => console.log('Ask me later pressed')
+            text: 'Try Again'
           }
         ],
         { cancelable: false }
-      )}
-    ).finally(() => {
-      setEmail('')
-      setPassword('')
-    });    
+      )});
   }
-  
-  
-  /*const pressHandler= () => {
-    if (key=='1') {
-      navigation.navigate('OperatorsManager');
-    } else {
-      Alert.alert(
-        'Warning !',
-        'Username or Password or Key Master are false',
-        [
-          {
-            text: 'Try Again',
-            onPress: () => console.log('Ask me later pressed')
-          }
-        ],
-        { cancelable: false }
-      );
-    }    
-   usernameInput.current.clear();
-   passwordInput.current.clear();
-   keyInput.current.clear();
-  }*/
 
   return (
     <TouchableWithoutFeedback onPress={() => {
@@ -93,7 +66,7 @@ export default function MasterLogin( { navigation }) {
           <Input 
           autoCorrect={false}
           autoCapitalize="none"
-          onChangeText={(email)=>setEmail(email)}
+          onChangeText={(email)=> {setEmail(email)}}
           />
         </Item>
 
@@ -103,7 +76,7 @@ export default function MasterLogin( { navigation }) {
           secureTextEntry={true}
           autoCorrect={false}
           autoCapitalize="none"
-          onChangeText={(password)=>setEmail(password)}
+          onChangeText={(password)=>{setPassword(password)}}
           />
         </Item>
 

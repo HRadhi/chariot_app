@@ -4,6 +4,7 @@ import MasterLogin from '../screens/masterLogin';
 import OperatorsLog from '../screens/operatorsLog'
 import OperatorsManager from '../screens/operatorsManager';
 import Header from '../shared/header';
+import StackHeader from '../shared/stackHeader';
 
 const screens= {
     MasterLogin:{
@@ -16,14 +17,18 @@ const screens= {
     },
     OperatorsManager: {
         screen: OperatorsManager,
-        navigationOptions: {
-            title: 'Operators Manager'
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <StackHeader title='Operators Manager' navigation={navigation} />
+            } 
         }
     },
     OperatorsLog: {
         screen: OperatorsLog, 
-        navigationOptions: {
-            title: 'Logging Page'
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <StackHeader title='Logs' navigation={navigation} />
+            } 
         }
     }
 }

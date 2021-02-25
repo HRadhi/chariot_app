@@ -11,33 +11,35 @@ export default function AddUser({setModalOpenAdd}) {
 const [newName,setNewName] = useState('');
 const [newEmail,setNewEmail] = useState('');
 const [newPass,setNewPass] = useState('');
+const [key,setKey] = useState('');
 
 const signUpUser = (email, password) => {
 
   LocalAuthentication.authenticateAsync({promptMessage: 'Scan Your Finger'}).then((success)=> {
     if(success){
-      firebase.auth().createUserWithEmailAndPassword(email, password).then(function (user) {
-        //console.log(user)
-        //add name to firestore (post method)
-        // operators: {name, [sessions: {dates, activation time, comsumption etc...}]}
-        setModalOpenAdd(false);
-        }).catch((error) => {
-          Alert.alert(
-            'Warning !',
-            error.toString(),
-            [
-              {
-                text: 'Try Again',
-                onPress: () => console.log('Ask me later pressed')
-              }
-            ],
-            { cancelable: false }
-          )}
-        ).finally(() => {
-          setNewEmail('')
-          setNewPass('')
-          setKey('')
+      firebase.auth().createUserWithEmailAndPassword(email,password).then(cred => {
+        return firebase.firestore().collection('operators').doc(cred.user.uid).set({
+          name : newName,
+          email: newEmail
         });
+      }).then(() => {
+        //close the modal
+        setModalOpenAdd(false);
+      }).catch((error) => {
+        Alert.alert(
+          'Warning !',
+          error.toString(),
+          [
+            {
+              text: 'Try Again',
+              onPress: () => console.log('Ask me later pressed')
+            }
+          ],
+          { cancelable: false }
+        );
+      //close the modal
+      setModalOpenAdd(false);
+      });
     }
   })
 }
@@ -71,6 +73,16 @@ return (
         autoCorrect={false}
         autoCapitalize="none"
         onChangeText={(password)=>setNewPass(password)}
+        />
+      </Item>
+
+      <Item floatingLabel>
+        <Label>Secret Key</Label>
+        <Input 
+        secureTextEntry={true}
+        autoCorrect={false}
+        autoCapitalize="none"
+        onChangeText={(key)=>setKey(key)}
         />
       </Item>
 

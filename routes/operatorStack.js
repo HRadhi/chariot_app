@@ -2,7 +2,9 @@ import { createStackNavigator } from 'react-navigation-stack';
 import React from 'react';
 import OperatorLogin from '../screens/operatorLogin';
 import RemoteControl from '../screens/remoteControl';
-import Header from '../shared/header'
+import OperatorTasks from '../screens/operatorTasks';
+import Header from '../shared/header';
+import StackHeader from '../shared/stackHeader';
 
 const screens= {
     OperatorLogin: {
@@ -13,10 +15,20 @@ const screens= {
             }
         }
     },
+    OperatorTasks: {
+        screen: OperatorTasks, 
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <StackHeader title='Tasks' navigation={navigation} />
+            } 
+        }
+    },
     RemoteControl: {
         screen: RemoteControl, 
-        navigationOptions: {
-            title: 'Remote Control'
+        navigationOptions: ({ navigation }) => {
+            return {
+                headerTitle: () => <StackHeader title='Remote Control' navigation={navigation} />
+            } 
         }
     }
 };

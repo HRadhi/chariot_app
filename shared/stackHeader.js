@@ -1,15 +1,10 @@
 import React from 'react';
 import { StyleSheet, Text, View} from 'react-native';
-import { FAB } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 
 import * as firebase from 'firebase';
 
-export default function Header({ title, navigation }) {
-
-  const openMenu = () => {
-    navigation.openDrawer();
-  }
+export default function StackHeader({ title, navigation }) {
 
   const Logout = () => {    
     firebase.auth().signOut().then(() => {
@@ -20,9 +15,11 @@ export default function Header({ title, navigation }) {
 
   return (
     <View style={styles.header}>
-      <MaterialIcons name='menu' size={28} onPress={openMenu} style={styles.iconMenu} />
       <View>
         <Text style={styles.headerText}>{title}</Text>
+      </View>
+      <View>
+        <Text style={styles.headerText}>         </Text>
       </View>
         <MaterialIcons 
         name='logout' 
@@ -47,11 +44,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#333',
     letterSpacing: 1,
-  },
-  iconMenu: {
-    position: 'absolute',
-    left: 5,
-    color: '#333',
   },
   iconLogout: {
     position: 'absolute',

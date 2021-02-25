@@ -21,7 +21,19 @@ const firebaseConfig = {
   measurementId: "G-LSDD5FTP52"
 };
 
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps.length){
+  firebase.initializeApp(firebaseConfig);
+  firebase.firestore().settings({ timestampsInSnapshots: true });
+}
+
+// Tracking of auth status changes
+firebase.auth().onAuthStateChanged(user => {
+  if(user){
+    console.log(user.provideData)
+  } else {
+    console.log('user logged out')
+  }
+})
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);

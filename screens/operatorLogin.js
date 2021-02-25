@@ -17,7 +17,7 @@ export default function OperatorLogin ({ navigation }) {
 
     firebase.auth().signInWithEmailAndPassword(email, password).then(function (user) {
       //console.log(user)
-      navigation.navigate('RemoteControl')
+      navigation.navigate('OperatorTasks');
     }).catch((error) => {
       Alert.alert(
         'Warning !',
@@ -29,11 +29,7 @@ export default function OperatorLogin ({ navigation }) {
           }
         ],
         { cancelable: false }
-      )}
-    ).finally(() => {
-      setEmail('')
-      setPassword('')
-    });    
+      )});
   }
 
   return (

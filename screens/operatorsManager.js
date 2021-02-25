@@ -1,32 +1,44 @@
-import React, { useState } from 'react';
-import { StyleSheet, View, Text, Modal, FlatList, TouchableOpacity, TextInput, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, View, Text, Modal, TouchableOpacity } from 'react-native';
+import { List, ListItem, Thumbnail } from "native-base";
 import { globalStyles } from '../styles/global';
-import Card from '../shared/card';
 import { MaterialIcons } from '@expo/vector-icons';
-import AddUser from './addForm'
+import TaskList from './taskList'
 
-
+import * as firebase from 'firebase';
+import { ScrollView } from 'react-native-gesture-handler';
 
 export default function OperatorsManager({ navigation }) {
-// Dummy data to test the card design
-  const [modalOpenAdd, setModalOpenAdd] = useState(false);
-  const [users, setUsers] = useState([
-      { username: 'karimchemek', password:'123456', key: '1' },
-      { username: 'radhi', password:'123456', key: '2' },
-      { username: 'azgalabichouo', password:'123456', key: '3' },
-    ]);
 
-// Show/Hide function
-const [toggle, setToggle] = useState(true);
-const toggleFunction = () => {
-  setToggle(!toggle);
-};
+// States
+  const [modalOpenAdd, setModalOpenAdd] = useState(false);  
+  const [users, setUsers] = useState([]);
+  const [activeUser, setActiveUser] = useState({activeEmail:'', activeName:''});
+
+// get operators list
+useEffect(()=> {
+  firebase.firestore().collection('operators').onSnapshot(snapshot => {
+    let operators = [];
+    snapshot.docs.map(doc => { 
+      operators.push({name:doc.data().name , email: doc.data().email,key: doc.id});
+    });
+    setUsers(operators);
+    operators=[];
+  })
+  
+},[])
+
+const OperatorTask = (activeUser) => {
+  setActiveUser(activeUser);
+  //console.log(activeUser)
+  setModalOpenAdd(true)
+}
 
 /*****************************************************************/
   return (
     <View style={globalStyles.container}>
 
-      {/*** Add User modal ***/}
+      {/*** Operator Tasks (by uid) modal ***/}
       <Modal visible={modalOpenAdd} animationType='slide'>
         <View style={styles.modalContent}>
           <MaterialIcons 
@@ -36,53 +48,59 @@ const toggleFunction = () => {
           onPress={() => setModalOpenAdd(false)}
           />
           <View style={styles.container}>
-            <Text style={globalStyles.titleText}> Add an Operator</Text>
-            <AddUser users={users} setUsers={setUsers} setModalOpenAdd={setModalOpenAdd}/>
+            <TaskList activeUser={activeUser} />
           </View>
         </View>
       </Modal>
 
-      {/*<View style={styles.add_eye}>
-        <MaterialIcons 
-          name='add' 
-          size={24} 
-          style={styles.modalToggle}
-          onPress={() => setModalOpenAdd(true)} 
-        />
-        <MaterialIcons 
-        style={styles.modalToggle} 
-        name="remove-red-eye" 
-        size={24} 
-        color='#555' 
-        onPress={() => toggleFunction()}
-        />
-  </View>  */}
-      
-      <FlatList 
-      data={users}
-      renderItem={ ( {item} ) => (
-          <TouchableOpacity onPress={() => navigation.navigate('OperatorsLog')}>
-            <Card>
-              <View style={styles.info}>
-                <Text style={globalStyles.titleText}> Username:  </Text>
-                <Text style={globalStyles.titleText}>{item.username}</Text>
+    <ScrollView>
+      <List scrollEnabled={true}>
+        {users.map((user) => {
+          return(
+          <ListItem noIndent={true} key={user.key}>
+            <View 
+              style={{ 
+                width: '100%', 
+                flexDirection:'row', 
+                justifyContent: 'space-around', 
+                alignContent:'center'
+            }}>
+              <TouchableOpacity onPress={()=> console.log('Profile Picture')}>
+                <Thumbnail 
+                square
+                source={require('../assets/img/profile.png')}
+                />
+              </TouchableOpacity>
+              <View style={{ color :'#444', flex: 1,marginTop: 3, marginLeft: 30}}>
+                <Text style={styles.titleText}>{user.name}</Text>
+                <Text note>{user.email}</Text>
               </View>
-              <View style={styles.info}>
-                <Text style={globalStyles.titleText}> Password:  </Text>
-                <Text style={globalStyles.titleText} >
-                      {toggle ? '***********': item.password  }</Text>                
-              </View>            
-            </Card>
-          </TouchableOpacity>
-      )}
-      />
+              <TouchableOpacity 
+                onPress={()=> OperatorTask({activeEmail: user.email,activeName: user.name})}>
+                <Thumbnail 
+                square
+                source={require('../assets/img/tasks.png')}
+                />
+              </TouchableOpacity>
+            </View>
+        </ListItem>
+        )})}
+      </List>
+    </ScrollView>
     </View>
   );
 }
 
-const styles=StyleSheet.create({
-  modalContent: {
-    flex: 1,
+const styles=StyleSheet.create({  
+  container: {
+    width: '100%',
+    height: '100%',
+    alignItems: 'center',
+  },
+  titleText: {
+    fontFamily: 'nunito-regular',
+    fontSize: 18,
+    color: '#555',
   },
   modalToggle: {
     marginBottom: 10,
@@ -94,22 +112,5 @@ const styles=StyleSheet.create({
   modalClose: {
     marginTop: 20,
     marginBottom: 0,
-  },
-  container: {
-    flex: 1,
-    padding: 20,
-    width: '100%',
-    height: '100%',
-    alignItems: 'center',
-    paddingTop: 100,
-  },
-  info: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 5,
-  },
-  add_eye: {
-    flexDirection: 'row',
-    justifyContent:'space-evenly',
-  },
+  }
 })

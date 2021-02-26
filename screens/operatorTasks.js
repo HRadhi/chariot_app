@@ -18,13 +18,13 @@ useEffect(()=> {
   firebase.auth().onAuthStateChanged(user => {
     setActiveUser(user.email)
   });
-    const abortController = new AbortController();
+    //const abortController = new AbortController();
     firebase.firestore().collection('tasks').where('operatorEmail','==',activeUser).onSnapshot(snapshot => {
                    
         let tasks = [];
         snapshot.docs.map(doc => { 
             tasks.push({
-                operatorName: doc.data().operatorName,
+                operatorName: doc.data().operatorName, 
                 operatorEmail:doc.data().operatorEmail,
                 taskTitle: doc.data().taskTitle,
                 taskDescription: doc.data().taskDescription,
@@ -36,7 +36,7 @@ useEffect(()=> {
         tasks=[];
         // use effect cleanup to set flag false, if unmounted
     })    
-    return ()=> {abortController.abort()} 
+    //return ()=> {abortController.abort()} 
   },[])
 
 const GoToRemoteControl = () => {
@@ -47,7 +47,7 @@ const GoToRemoteControl = () => {
   return (
     <View style={styles.form}>  
         <View style={styles.title}>            
-            <Text style={styles.titleText}>{tasks[0].operatorName} Tasks</Text>
+            <Text style={styles.titleText}>Karim Chemek Tasks</Text>
         </View>
         <Button 
             full

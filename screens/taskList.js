@@ -17,7 +17,7 @@ export default function TaskList({ activeUser }) {
 
 // get operator tasks list
 useEffect(()=> {
-    const abortController = new AbortController();
+    //const abortController = new AbortController();
     firebase.firestore().collection('tasks').where('operatorEmail','==',activeUser.activeEmail).onSnapshot(snapshot => {
                    
         let tasks = [];
@@ -35,7 +35,7 @@ useEffect(()=> {
         tasks=[];
         // use effect cleanup to set flag false, if unmounted
     })    
-    return ()=> {abortController.abort()}    
+    //return ()=> {abortController.abort()}    
   },[])
 
 const AddOperatorTask = () => {   

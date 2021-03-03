@@ -1,13 +1,14 @@
 import React, {useEffect} from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Button } from 'native-base'; 
-import io from 'socket.io-client';
+import io from 'socket.io';
 
 export default function RemoteControl() {
 
+const socket = io.connect('http://localhost:5000');
+
 const onForwardPress = () => {
-  io().emit('direction', 'forward');
-  console.log('on forward');
+  socket.emit('direction', 'forward');
 }
   return (
     <View style={styles.RemoteControl}>
@@ -17,7 +18,7 @@ const onForwardPress = () => {
         active
         onPress={() => onForwardPress()}
       >
-        <Text style={{color:'white'}}>Add</Text>
+        <Text style={{color:'white'}}>Forward</Text>
       </Button>
     </View>
 );

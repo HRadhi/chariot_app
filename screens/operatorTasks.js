@@ -47,7 +47,7 @@ const GoToRemoteControl = () => {
   return (
     <View style={styles.form}>  
         <View style={styles.title}>            
-            <Text style={styles.titleText}>Karim Chemek Tasks</Text>
+            {/*<Text style={styles.titleText}>Karim Chemek Tasks</Text>*/}
         </View>
         <Button 
             full

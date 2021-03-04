@@ -1,18 +1,14 @@
-const express = require('express');
-const socket = require('socket.io');
-
-//App setup
+const express = require("express");
 const app = express();
-const server = app.listen(5000, function() {
-  console.log('Listening for requests on port 5000');
+const server = require("http").createServer(app);
+const io = require("socket.io")(server);
+const port = 3002;
+
+io.on("connection", socket => {
+  console.log("a user connected :D");
+  socket.on("direction", msg => {
+    console.log(msg);
+  });
 });
 
-//Socket setup & pass server
-const io = socket(server);
-io.on('connection', (socket) => {
-  console.log('Made socket connection', socket.id);
-
-  socket.on('direction', function(data){
-    console.log(data);
-  })
-})
+server.listen(port, () => console.log("server running on port:" + port));

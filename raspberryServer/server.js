@@ -7,7 +7,7 @@ const port = 3002;
 io.on("connection", socket => {
   console.log("a user connected :D");
   socket.on("direction", msg => {
-    console.log(msg);
+    console.log('You pressed: '+msg);
   });
 });
 

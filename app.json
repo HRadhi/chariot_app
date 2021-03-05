@@ -2,13 +2,13 @@
   "expo": {
     "name": "chariot_app",
     "slug": "chariot_app",
-    "version": "1.1.0",
+    "version": "1.0.0",
     "orientation": "portrait",
     "sdkVersion": "40.0.0",
-    "icon": "./assets/icon_1.jpg",
+    "icon": "./assets/icon.png",
     "splash": {
-      "image": "./assets/splash_2.png",
-      "resizeMode": "cover",
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "updates": {
@@ -19,7 +19,7 @@
     ],
     "android": {
       "package": "com.spacetrain.chariotapp",
-      "versionCode": 11,
+      "versionCode": 2,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"

@@ -73,7 +73,7 @@ export default class RemoteControl extends Component {
         flexDirection:'row',
         justifyContent:'space-evenly',
         borderBottomWidth: 2,
-        borderColor: 'grey',
+        borderColor: '#98c1d9',
       }}>
         <Button style={{ marginTop: 10,marginBottom: 10, width:60, height: 60 }}
           full
@@ -83,7 +83,7 @@ export default class RemoteControl extends Component {
         >
           <Icon name='power' />
         </Button>
-        <Text note style={{ marginTop: 30, width: 80, color:'#999'}}>Air Cushion</Text>
+        <Text note style={{ marginTop: 30, width: 80, color:'#98c1d9'}}>Air Cushion</Text>
         <Button style={{ marginTop: 10,marginBottom: 10, width:60, height: 60 }}
           full
           rounded

@@ -3,15 +3,15 @@ import React from 'react';
 import MasterLogin from '../screens/masterLogin';
 import OperatorsLog from '../screens/operatorsLog'
 import OperatorsManager from '../screens/operatorsManager';
-import Header from '../shared/header';
-import StackHeader from '../shared/stackHeader';
+import MasterHeader from '../shared/masterHeader';
+import StackMasterHeader from '../shared/stackMasterHeader';
 
 const screens= {
     MasterLogin:{
         screen: MasterLogin,
         navigationOptions: ({ navigation }) => {
             return {
-                headerTitle: () => <Header title='Master' navigation={navigation} />
+                headerTitle: () => <MasterHeader title='Master' navigation={navigation} />
             } 
         }
     },
@@ -19,7 +19,7 @@ const screens= {
         screen: OperatorsManager,
         navigationOptions: ({ navigation }) => {
             return {
-                headerTitle: () => <StackHeader title='Operators Manager' navigation={navigation} />
+                headerTitle: () => <StackMasterHeader title='Operators Manager' navigation={navigation} />
             } 
         }
     },
@@ -27,7 +27,7 @@ const screens= {
         screen: OperatorsLog, 
         navigationOptions: ({ navigation }) => {
             return {
-                headerTitle: () => <StackHeader title='Logs' navigation={navigation} />
+                headerTitle: () => <StackMasterHeader title='Logs' navigation={navigation} />
             } 
         }
     }

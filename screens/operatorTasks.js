@@ -13,31 +13,41 @@ export default function OperatorTasks({ navigation }) {
   const [activeUser,setActiveUser] = useState('');
   const _isMounted = useRef(true); // Initial value _isMounted = true
 
+  const isEmpty = (obj) => {
+    for(var key in obj) {
+        if(obj.hasOwnProperty(key))
+            return false;
+    }
+    return true;
+  }
+
 // get operator tasks list
 useEffect(()=> {
+  
   firebase.auth().onAuthStateChanged(user => {
-    setActiveUser(user.email)
-  });
-    //const abortController = new AbortController();
-    firebase.firestore().collection('tasks').where('operatorEmail','==',activeUser).onSnapshot(snapshot => {
-                   
-        let tasks = [];
-        snapshot.docs.map(doc => { 
-            tasks.push({
-                operatorName: doc.data().operatorName, 
-                operatorEmail:doc.data().operatorEmail,
-                taskTitle: doc.data().taskTitle,
-                taskDescription: doc.data().taskDescription,
-                priority: doc.data().priority, 
-                key: doc.id
-            });
-        });
-        setTasks(tasks);
-        tasks=[];
-        // use effect cleanup to set flag false, if unmounted
-    })    
-    //return ()=> {abortController.abort()} 
-  },[])
+    //console.log(user.email.length)
+    if(user){
+      firebase.firestore().collection('tasks').where('operatorEmail','==',user.email).onSnapshot(snapshot => { 
+                        
+      let tasks = [];
+      snapshot.docs.map(doc => { 
+          tasks.push({
+              operatorName: doc.data().operatorName, 
+              operatorEmail:doc.data().operatorEmail,
+              taskTitle: doc.data().taskTitle,
+              taskDescription: doc.data().taskDescription,
+              priority: doc.data().priority, 
+              key: doc.id
+          });
+      });
+      setTasks(tasks);
+      tasks=[];
+      // use effect cleanup to set flag false, if unmounted
+      })
+    }  
+  })
+  
+},[])
 
 const GoToRemoteControl = () => {
   navigation.navigate('RemoteControl');
@@ -47,7 +57,7 @@ const GoToRemoteControl = () => {
   return (
     <View style={styles.form}>  
         <View style={styles.title}>            
-            <Text style={styles.titleText}>Karim Chemek Tasks</Text>
+            {/*<Text style={styles.titleText}>Karim Chemek Tasks</Text>*/}
         </View>
         <Button 
             full

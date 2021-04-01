@@ -27,13 +27,13 @@ if (!firebase.apps.length){
 }
 
 // Tracking of auth status changes
-firebase.auth().onAuthStateChanged(user => {
+/*firebase.auth().onAuthStateChanged(user => {
   if(user){
     console.log(user.provideData)
   } else {
     console.log('user logged out')
   }
-})
+})*/
 
 export default function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);

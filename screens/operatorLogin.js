@@ -25,7 +25,7 @@ export default function OperatorLogin ({ navigation }) {
         [
           {
             text: 'Try Again',
-            onPress: () => console.log('Ask me later pressed')
+            //onPress: () => console.log('Ask me later pressed')
           }
         ],
         { cancelable: false }
@@ -35,7 +35,6 @@ export default function OperatorLogin ({ navigation }) {
   return (
     <TouchableWithoutFeedback onPress={() => {
         Keyboard.dismiss();
-        console.log('dismissed');
       }}>
     <Container style={styles.container}>
       <Text style={globalStyles.titleText}> Login as an Operator</Text>
@@ -45,7 +44,7 @@ export default function OperatorLogin ({ navigation }) {
           <Input 
             autoCorrect={false}
             autoCapitalize="none"
-            onChangeText={(email)=>setEmail(email)}
+            onChangeText={(email)=>setEmail(email.replace(/ /g, ''))}
           />
         </Item>
 

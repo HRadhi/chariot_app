@@ -32,7 +32,7 @@ const signUpUser = (email, password) => {
           [
             {
               text: 'Try Again',
-              onPress: () => console.log('Ask me later pressed')
+              //onPress: () => console.log('Ask me later pressed')
             }
           ],
           { cancelable: false }

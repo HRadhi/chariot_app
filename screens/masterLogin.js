@@ -22,7 +22,6 @@ export default function MasterLogin( { navigation }) {
   const loginUser = (email, password) => {
 
     firebase.auth().signInWithEmailAndPassword(email, password).then((cred) => {
-      //console.log(cred)
       navigation.navigate('OperatorsManager')
     }).catch((error) => {
       Alert.alert(
@@ -40,7 +39,6 @@ export default function MasterLogin( { navigation }) {
   return (
     <TouchableWithoutFeedback onPress={() => {
       Keyboard.dismiss();
-      console.log('dismissed');
     }}>
     <Container style={styles.container}> 
 

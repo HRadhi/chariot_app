@@ -11,21 +11,11 @@ export default function OperatorTasks({ navigation }) {
 // States
   const [tasks, setTasks] = useState([]);
   const [activeUser,setActiveUser] = useState('');
-  const _isMounted = useRef(true); // Initial value _isMounted = true
-
-  const isEmpty = (obj) => {
-    for(var key in obj) {
-        if(obj.hasOwnProperty(key))
-            return false;
-    }
-    return true;
-  }
 
 // get operator tasks list
 useEffect(()=> {
   
   firebase.auth().onAuthStateChanged(user => {
-    //console.log(user.email.length)
     if(user){
       firebase.firestore().collection('tasks').where('operatorEmail','==',user.email).onSnapshot(snapshot => { 
                         
@@ -41,6 +31,7 @@ useEffect(()=> {
           });
       });
       setTasks(tasks);
+      setActiveUser(tasks[0].operatorName)
       tasks=[];
       // use effect cleanup to set flag false, if unmounted
       })
@@ -50,7 +41,7 @@ useEffect(()=> {
 },[])
 
 const GoToRemoteControl = () => {
-  navigation.navigate('RemoteControl');
+  navigation.navigate('RemoteControl',{activeUser: activeUser});
 }
 
 /*****************************************************************/
@@ -75,7 +66,7 @@ const GoToRemoteControl = () => {
               {tasks.map((task) => {
               return(
               <ListItem 
-              style={{backgroundColor:'#f7f6e7' ,borderColor: '#cfd3ce', borderWidth: 1, borderRadius: 3, margin: 5, marginTop: 4}} 
+              style={{backgroundColor:'#cdcdcd' ,borderColor: '#cfd3ce', borderWidth: 1, borderRadius: 3, margin: 5, marginTop: 4}} 
               noIndent={true} 
               key={task.key}
               >                   

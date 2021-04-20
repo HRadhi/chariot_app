@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View} from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import socket from 'socket.io-client';
 
 import * as firebase from 'firebase';
 
@@ -11,6 +12,7 @@ export default function StackHeader({ title, navigation }) {
       console.log("You are Logged out");
       navigation.navigate('OperatorLogin');
     })
+    //socket.disconnect();
   }
 
   return (

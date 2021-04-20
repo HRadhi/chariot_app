@@ -64,7 +64,7 @@ export default function MasterLogin( { navigation }) {
           <Input 
           autoCorrect={false}
           autoCapitalize="none"
-          onChangeText={(email)=> {setEmail(email)}}
+          onChangeText={(email)=> {setEmail(email.replace(/ /g, ''))}}
           />
         </Item>
 

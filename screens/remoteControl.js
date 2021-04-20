@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableWithoutFeedback } from 'react-native';
-import { Button, Icon } from 'native-base'; 
+import { Button, Icon, Form, Input, Item, Label } from 'native-base'; 
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import io from 'socket.io-client';
+import socket from 'socket.io-client';
 import uuid from 'uuid';
 
 
@@ -12,7 +12,8 @@ export default class RemoteControl extends Component {
     super (props);
     this.state = {
       commands : [],
-      test : ["hey1", "hey2"]
+      ipAdress : '',
+      port: ''
     }
   }
 
@@ -61,8 +62,13 @@ export default class RemoteControl extends Component {
     return fullTime;
   }
 
-  componentDidMount() {
-    this.socket = io("http://192.168.1.18:3002");  
+  socketConnect() {
+    console.log(this.state.ipAdress)
+    this.socket = socket('http://'+this.state.ipAdress+':'+this.state.port,  { transports: ['websocket'] });  
+    this.socket.on('connect', (socket) => {
+      console.log('Connected to server')
+    })
+    //console.log(this.socket)
   }
 
 //Air cushion control
@@ -227,6 +233,33 @@ export default class RemoteControl extends Component {
           style={{color:'#CDCDCD', marginTop: 5, marginLeft: 0, padding:0}}
           />
         </View>
+      </View>
+      
+      <View style={{ flexDirection: 'row', alignContent:'center', marginBottom: 5}}>
+        <Item  style={{ width: 300, marginTop: 5, height: 30}}>
+          {/*<Label>IP Adress: PORT</Label>*/}
+          <Input 
+            placeholder='IP Adress'
+            autoCorrect={false}
+            autoCapitalize="none"
+            onChangeText={(adress)=>this.setState({ipAdress: adress.replace(/ /g, '')})}
+          />
+          <Input 
+            placeholder='PORT'
+            autoCorrect={false}
+            autoCapitalize="none"
+            onChangeText={(port)=>this.setState({port: port.replace(/ /g, '')})}
+          />
+        </Item>
+
+        <Button style={{ width: 90, marginTop: 5}}
+          small
+          block
+          success
+          onPress={() => this.socketConnect()}
+        >
+          <Text style={{color: 'white'}}>Connect</Text>
+        </Button>
       </View>
 
       <View 
